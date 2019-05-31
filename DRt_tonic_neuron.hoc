@@ -1,0 +1,20 @@
+/*
+* Create single compartment model to reproduce the prevalent firing response of DRt neurons. 
+* We used the Hodgkin-Huxley formalism, to identify a minimal set of ionic currents giving rise to the experimentally observed tonic firing pattern.
+*
+* Created by Mafalda Sousa [mafsousa@ibmc.up.pt]
+*/
+
+create soma
+access soma
+
+// set experimental morphometric measures
+L = 40
+diam = 25
+
+// include ionic currents
+insert pas  			
+insert HH2  			//HH channels: iNat and iK
+insert CaIntraCellDyn  	//intracellular Ca dynamics
+insert iKCa				//potassium current dependent on intracellular calcium concentration 
+insert iCaL				//high-voltage activated long-lasting calcium current, L-type

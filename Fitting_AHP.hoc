@@ -1,0 +1,120 @@
+/*
+* Explore the possible membrane currents and their parameters giving rise to the after-hyperpolarization variability observed experimentally in
+* current clamp experiment: start at -20 pA, steps of 10 pA, current step in Trace T [pA] =>  -20 + 10*(T-1)
+*
+* Created by Mafalda Sousa [mafsousa@ibmc.up.pt]
+*/
+
+
+// create a DRt tonic neuron
+load_file("DRt_tonic_neuron.hoc")
+load_file("AHP_profile.ses")
+
+tstop = 850
+celsius = 25  
+cac_iKCa = 0.001
+
+objectvar scene_vector_[5], v1, v2, v3, v4
+
+v1 = new Vector()
+v2 = new Vector()
+v3 = new Vector()
+v4 = new Vector()
+
+
+// insert current-clamp electrode 
+objref stim
+stim = new IClamp(0.5)
+stim.del = 95
+stim.dur = 500 
+
+// fitting trace 1
+stim.amp = 0.67
+vtraub_HH2 = -65
+soma.cai_tau_CaIntraCellDyn = 10
+soma.gbar_iKCa = 0.02
+beta_iKCa = 0.003
+taumin_iKCa = 6
+
+objref g1
+g1 = new Graph(0)
+g1.size(0,800,-80,40)
+scene_vector_[1] = g1
+{g1.view(0, -80, 800, 120, 412, 27, 300.6, 184.6)}
+graphList[0].append(g1)
+g1.save_name("graphList[0].")
+v1.record(&soma.v(0.5))
+run()
+v1.line(g1,0.025)
+
+g1 = scene_vector_[1]
+{g1.view(370, -80, 200, 120, 841, 30, 100.8, 180.1)}
+
+//fitting trace 2
+
+stim.amp = 0.37
+vtraub_HH2 = -65
+soma.cai_tau_CaIntraCellDyn = 10
+soma.gbar_iKCa = 0.0006
+beta_iKCa = 0.05
+taumin_iKCa = 1
+
+objref g2
+g2 = new Graph(0)
+g2.size(0,800,-80,40)
+scene_vector_[2] = g2
+{g2.view(0, -80, 800, 120, 1022, 26, 300.6, 181.9)}
+graphList[1].append(g2)
+g2.save_name("graphList[1].")
+v2.record(&soma.v(0.5))
+run()
+v2.line(g2,0.025)
+
+g2 = scene_vector_[2]
+{g2.view(180, -80, 90, 120, 1449, 27, 100.8, 179.2)}
+
+//fitting trace 3
+
+stim.amp = 0.34
+vtraub_HH2 = -65
+soma.cai_tau_CaIntraCellDyn = 5
+soma.gbar_iKCa = 0.009
+beta_iKCa = 0.005
+taumin_iKCa = 7
+
+objref g3
+g3 = new Graph(0)
+g3.size(0,800,-80,40)
+scene_vector_[3] = g3
+{g3.view(0, -80, 800, 120, 412, 360, 300.6, 200.8)}
+graphList[2].append(g3)
+g3.save_name("graphList[2].")
+v3.record(&soma.v(0.5))
+run()
+v3.line(g3,0.025)
+
+g3 = scene_vector_[3]
+{g3.view(410, -80, 85, 120, 838, 361, 100.8, 201.7)}
+
+//fitting trace 4
+
+stim.amp = 0.664
+vtraub_HH2 = -55
+soma.cai_tau_CaIntraCellDyn = 4
+soma.gbar_iKCa = 0.001
+beta_iKCa = 0.004
+taumin_iKCa = 3
+
+objref g4
+g4 = new Graph(0)
+g4.size(0,800,-80,40)
+scene_vector_[4] = g4
+{g4.view(0, -80, 800, 120, 1022, 362, 300.6, 198.1)}
+graphList[3].append(g4)
+g4.save_name("graphList[3].")
+v4.record(&soma.v(0.5))
+run()
+v4.line(g4,0.025)
+
+g4 = scene_vector_[4]
+{g4.view(390, -80, 90, 120, 1450, 362, 100.8, 199.9)}
